@@ -1,36 +1,43 @@
 import { useState } from "react";
 import songs from "./data/songs";
 import Player from "./components/Player";
+import "./styles.css";
 
-function App() {
+export default function App() {
   const [currentSong, setCurrentSong] = useState(0);
 
+  const song = songs[currentSong];
+
   return (
-    <div className="h-screen bg-black flex justify-center items-center overflow-hidden">
+    <div className="h-screen w-full bg-black flex items-center justify-center overflow-hidden">
 
-      <div className="w-[380px] h-[660px] bg-[#111827] rounded-3xl shadow-2xl p-5 flex flex-col">
+      <div className="w-[360px] h-[620px] bg-[#111827] rounded-3xl shadow-2xl p-6 flex flex-col">
 
-        <h1 className="text-3xl font-bold text-center text-white mb-5">
-          🎵 Music Player
+        {/* Title */}
+        <h1 className="text-white text-2xl font-bold text-center mb-4">
+          Music Player
         </h1>
 
-        <img
-          src={`https://picsum.photos/400?random=${currentSong}`}
-          alt="Album"
-          className="w-56 h-56 mx-auto rounded-3xl object-cover shadow-xl"
-        />
+        {/* Album */}
+        <div className="flex justify-center">
+          <img
+            src={`https://picsum.photos/300?random=${currentSong}`}
+            className="w-48 h-48 rounded-2xl object-cover shadow-lg"
+          />
+        </div>
 
-        <div className="text-center mt-5">
-          <h2 className="text-2xl font-bold text-white">
-            {songs[currentSong].title}
+        {/* Song Info */}
+        <div className="text-center mt-4">
+          <h2 className="text-white text-xl font-semibold">
+            {song.title}
           </h2>
-
-          <p className="text-gray-400 mt-1">
-            {songs[currentSong].artist}
+          <p className="text-gray-400 text-sm">
+            {song.artist}
           </p>
         </div>
 
-        <div className="flex-1 mt-5">
+        {/* Player */}
+        <div className="mt-auto">
           <Player
             songs={songs}
             currentSong={currentSong}
@@ -39,9 +46,6 @@ function App() {
         </div>
 
       </div>
-
     </div>
   );
 }
-
-export default App;
