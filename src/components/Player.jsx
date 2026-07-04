@@ -51,22 +51,22 @@ function Player({ songs, currentSong, setCurrentSong }) {
   };
 
   const seekSong = (e) => {
-    const time = Number(e.target.value);
-    audioRef.current.currentTime = time;
-    setCurrentTime(time);
+    const value = Number(e.target.value);
+    audioRef.current.currentTime = value;
+    setCurrentTime(value);
   };
 
   const formatTime = (time) => {
     if (isNaN(time)) return "0:00";
 
-    const min = Math.floor(time / 60);
-    const sec = Math.floor(time % 60);
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
 
-    return `${min}:${sec < 10 ? "0" : ""}${sec}`;
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
   return (
-    <div className="mt-10">
+    <div className="flex flex-col gap-8 w-full">
 
       <audio
         ref={audioRef}
@@ -78,41 +78,45 @@ function Player({ songs, currentSong, setCurrentSong }) {
 
       {/* Progress Bar */}
 
-      <input
-        type="range"
-        min="0"
-        max={duration || 0}
-        value={currentTime}
-        onChange={seekSong}
-        className="w-full accent-blue-600 cursor-pointer"
-      />
+      <div>
 
-      <div className="flex justify-between text-gray-400 mt-2">
-        <span>{formatTime(currentTime)}</span>
-        <span>{formatTime(duration)}</span>
+        <input
+          type="range"
+          min="0"
+          max={duration || 0}
+          value={currentTime}
+          onChange={seekSong}
+          className="w-full accent-blue-600 cursor-pointer"
+        />
+
+        <div className="flex justify-between text-gray-400 mt-2">
+          <span>{formatTime(currentTime)}</span>
+          <span>{formatTime(duration)}</span>
+        </div>
+
       </div>
 
       {/* Controls */}
 
-      <div className="flex justify-center items-center gap-10 mt-10">
+      <div className="flex justify-center items-center gap-12">
 
         <button
           onClick={prevSong}
-          className="text-4xl text-white hover:text-blue-500"
+          className="text-white text-5xl hover:text-blue-500 transition"
         >
           <FaStepBackward />
         </button>
 
         <button
           onClick={playPause}
-          className="bg-blue-600 p-6 rounded-full text-4xl hover:bg-blue-700"
+          className="w-24 h-24 bg-blue-600 hover:bg-blue-700 rounded-full flex justify-center items-center text-4xl text-white shadow-xl transition"
         >
           {isPlaying ? <FaPause /> : <FaPlay />}
         </button>
 
         <button
           onClick={nextSong}
-          className="text-4xl text-white hover:text-blue-500"
+          className="text-white text-5xl hover:text-blue-500 transition"
         >
           <FaStepForward />
         </button>
@@ -121,9 +125,9 @@ function Player({ songs, currentSong, setCurrentSong }) {
 
       {/* Volume */}
 
-      <div className="flex items-center gap-5 mt-10">
+      <div className="flex items-center gap-4">
 
-        <FaVolumeUp className="text-2xl text-white"/>
+        <FaVolumeUp className="text-white text-2xl" />
 
         <input
           type="range"
@@ -132,21 +136,21 @@ function Player({ songs, currentSong, setCurrentSong }) {
           step="0.01"
           value={volume}
           onChange={(e) => setVolume(Number(e.target.value))}
-          className="w-full accent-blue-600"
+          className="flex-1 accent-blue-600 cursor-pointer"
         />
 
       </div>
 
       {/* Download */}
 
-      <div className="flex justify-center mt-10">
+      <div className="flex justify-center">
 
         <a
           href={songs[currentSong].src}
           download
-          className="bg-green-600 p-4 rounded-full hover:bg-green-700"
+          className="bg-green-600 hover:bg-green-700 w-16 h-16 rounded-full flex items-center justify-center transition"
         >
-          <FaDownload className="text-2xl text-white"/>
+          <FaDownload className="text-white text-2xl" />
         </a>
 
       </div>
