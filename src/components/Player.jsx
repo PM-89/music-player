@@ -17,14 +17,12 @@ function Player({ songs, currentSong, setCurrentSong }) {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
-  // Set volume
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = volume;
     }
   }, [volume]);
 
-  // Play selected song automatically
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.load();
@@ -35,7 +33,6 @@ function Player({ songs, currentSong, setCurrentSong }) {
     }
   }, [currentSong]);
 
-  // Play / Pause
   const playPause = () => {
     if (isPlaying) {
       audioRef.current.pause();
@@ -46,23 +43,19 @@ function Player({ songs, currentSong, setCurrentSong }) {
     setIsPlaying(!isPlaying);
   };
 
-  // Next Song
   const nextSong = () => {
     setCurrentSong((currentSong + 1) % songs.length);
   };
 
-  // Previous Song
   const prevSong = () => {
     setCurrentSong((currentSong - 1 + songs.length) % songs.length);
   };
 
-  // Seek Bar
   const handleSeek = (e) => {
     audioRef.current.currentTime = Number(e.target.value);
     setCurrentTime(Number(e.target.value));
   };
 
-  // Time Format
   const formatTime = (time) => {
     if (isNaN(time)) return "0:00";
 
@@ -73,7 +66,7 @@ function Player({ songs, currentSong, setCurrentSong }) {
   };
 
   return (
-    <div className="mt-6 flex-1 flex flex-col justify-end">
+    <div className="flex-1 flex flex-col justify-end mt-6">
 
       <audio
         ref={audioRef}
@@ -87,58 +80,48 @@ function Player({ songs, currentSong, setCurrentSong }) {
         onEnded={nextSong}
       />
 
-      {/* Progress Bar */}
+      <input
+        type="range"
+        min="0"
+        max={duration || 0}
+        value={currentTime}
+        onChange={handleSeek}
+        className="w-full cursor-pointer"
+      />
 
-      <div className="mt-6">
-
-        <input
-          type="range"
-          min="0"
-          max={duration || 0}
-          value={currentTime}
-          onChange={handleSeek}
-          className="w-full cursor-pointer"
-        />
-
-        <div className="flex justify-between text-sm mt-2 text-gray-400">
-          <span>{formatTime(currentTime)}</span>
-          <span>{formatTime(duration)}</span>
-        </div>
-
+      <div className="flex justify-between text-gray-400 mt-2">
+        <span>{formatTime(currentTime)}</span>
+        <span>{formatTime(duration)}</span>
       </div>
 
-      {/* Controls */}
-
-      <div className="flex justify-center items-center gap-8 mt-8">
+      <div className="flex justify-center items-center gap-12 mt-8">
 
         <button
           onClick={prevSong}
-          className="text-3xl hover:text-blue-500 transition"
+          className="text-white text-4xl hover:scale-110 transition"
         >
           <FaStepBackward />
         </button>
 
         <button
           onClick={playPause}
-          className="bg-blue-600 hover:bg-blue-700 p-5 rounded-full text-3xl transition"
+          className="bg-blue-600 hover:bg-blue-700 p-6 rounded-full text-4xl transition"
         >
           {isPlaying ? <FaPause /> : <FaPlay />}
         </button>
 
         <button
           onClick={nextSong}
-          className="text-3xl hover:text-blue-500 transition"
+          className="text-white text-4xl hover:scale-110 transition"
         >
           <FaStepForward />
         </button>
 
       </div>
 
-      {/* Volume */}
-
       <div className="flex items-center gap-4 mt-8">
 
-        <FaVolumeUp size={22} />
+        <FaVolumeUp className="text-white text-2xl" />
 
         <input
           type="range"
@@ -152,8 +135,6 @@ function Player({ songs, currentSong, setCurrentSong }) {
 
       </div>
 
-      {/* Download */}
-
       <div className="flex justify-center mt-8">
 
         <a
@@ -161,7 +142,7 @@ function Player({ songs, currentSong, setCurrentSong }) {
           download
           className="bg-green-600 hover:bg-green-700 p-4 rounded-full transition"
         >
-          <FaDownload size={22} />
+          <FaDownload className="text-2xl text-white" />
         </a>
 
       </div>
