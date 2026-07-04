@@ -13,7 +13,6 @@ function Player({ songs, currentSong, setCurrentSong }) {
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
-
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
@@ -51,42 +50,41 @@ function Player({ songs, currentSong, setCurrentSong }) {
     setCurrentSong((currentSong - 1 + songs.length) % songs.length);
   };
 
-  const handleSeek = (e) => {
-    audioRef.current.currentTime = Number(e.target.value);
-    setCurrentTime(Number(e.target.value));
+  const seekSong = (e) => {
+    const time = Number(e.target.value);
+    audioRef.current.currentTime = time;
+    setCurrentTime(time);
   };
 
   const formatTime = (time) => {
     if (isNaN(time)) return "0:00";
 
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
+    const min = Math.floor(time / 60);
+    const sec = Math.floor(time % 60);
 
-    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+    return `${min}:${sec < 10 ? "0" : ""}${sec}`;
   };
 
   return (
-    <div className="flex-1 flex flex-col justify-end mt-6">
+    <div className="mt-10">
 
       <audio
         ref={audioRef}
         src={songs[currentSong].src}
-        onLoadedMetadata={() =>
-          setDuration(audioRef.current.duration)
-        }
-        onTimeUpdate={() =>
-          setCurrentTime(audioRef.current.currentTime)
-        }
+        onLoadedMetadata={() => setDuration(audioRef.current.duration)}
+        onTimeUpdate={() => setCurrentTime(audioRef.current.currentTime)}
         onEnded={nextSong}
       />
+
+      {/* Progress Bar */}
 
       <input
         type="range"
         min="0"
         max={duration || 0}
         value={currentTime}
-        onChange={handleSeek}
-        className="w-full cursor-pointer"
+        onChange={seekSong}
+        className="w-full accent-blue-600 cursor-pointer"
       />
 
       <div className="flex justify-between text-gray-400 mt-2">
@@ -94,34 +92,38 @@ function Player({ songs, currentSong, setCurrentSong }) {
         <span>{formatTime(duration)}</span>
       </div>
 
-      <div className="flex justify-center items-center gap-12 mt-8">
+      {/* Controls */}
+
+      <div className="flex justify-center items-center gap-10 mt-10">
 
         <button
           onClick={prevSong}
-          className="text-white text-4xl hover:scale-110 transition"
+          className="text-4xl text-white hover:text-blue-500"
         >
           <FaStepBackward />
         </button>
 
         <button
           onClick={playPause}
-          className="bg-blue-600 hover:bg-blue-700 p-6 rounded-full text-4xl transition"
+          className="bg-blue-600 p-6 rounded-full text-4xl hover:bg-blue-700"
         >
           {isPlaying ? <FaPause /> : <FaPlay />}
         </button>
 
         <button
           onClick={nextSong}
-          className="text-white text-4xl hover:scale-110 transition"
+          className="text-4xl text-white hover:text-blue-500"
         >
           <FaStepForward />
         </button>
 
       </div>
 
-      <div className="flex items-center gap-4 mt-8">
+      {/* Volume */}
 
-        <FaVolumeUp className="text-white text-2xl" />
+      <div className="flex items-center gap-5 mt-10">
+
+        <FaVolumeUp className="text-2xl text-white"/>
 
         <input
           type="range"
@@ -130,19 +132,21 @@ function Player({ songs, currentSong, setCurrentSong }) {
           step="0.01"
           value={volume}
           onChange={(e) => setVolume(Number(e.target.value))}
-          className="w-full cursor-pointer"
+          className="w-full accent-blue-600"
         />
 
       </div>
 
-      <div className="flex justify-center mt-8">
+      {/* Download */}
+
+      <div className="flex justify-center mt-10">
 
         <a
           href={songs[currentSong].src}
           download
-          className="bg-green-600 hover:bg-green-700 p-4 rounded-full transition"
+          className="bg-green-600 p-4 rounded-full hover:bg-green-700"
         >
-          <FaDownload className="text-2xl text-white" />
+          <FaDownload className="text-2xl text-white"/>
         </a>
 
       </div>

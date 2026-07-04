@@ -6,37 +6,44 @@ function App() {
   const [currentSong, setCurrentSong] = useState(0);
 
   return (
-    <div className="min-h-screen bg-black flex justify-center items-center p-6">
+    <div className="w-screen h-screen bg-black flex justify-center items-center overflow-hidden">
 
-      <div className="bg-[#111827] w-[90vw] max-w-2xl h-[90vh] rounded-3xl shadow-2xl p-8 flex flex-col">
+      <div className="w-[95vw] h-[95vh] max-w-6xl bg-[#111827] rounded-3xl shadow-2xl flex items-center justify-between p-10">
 
-        <h1 className="text-5xl font-bold text-white text-center mb-6">
-          🎵 Music Player
-        </h1>
+        {/* Left Side */}
+        <div className="w-[40%] flex flex-col items-center">
 
-        <div className="flex justify-center">
+          <h1 className="text-5xl font-bold text-white mb-10">
+            🎵 Music Player
+          </h1>
 
           <img
-            src="https://picsum.photos/300"
-            alt="cover"
-            className="w-72 h-72 rounded-2xl object-cover shadow-xl"
+            src="https://picsum.photos/400"
+            alt="Album Cover"
+            className="w-80 h-80 rounded-3xl object-cover shadow-xl"
           />
 
         </div>
 
-        <h2 className="text-4xl font-bold text-white text-center mt-6">
-          {songs[currentSong].title}
-        </h2>
+        {/* Right Side */}
 
-        <p className="text-xl text-gray-400 text-center mt-2">
-          {songs[currentSong].artist}
-        </p>
+        <div className="w-[50%]">
 
-        <Player
-          songs={songs}
-          currentSong={currentSong}
-          setCurrentSong={setCurrentSong}
-        />
+          <h2 className="text-5xl font-bold text-white text-center">
+            {songs[currentSong].title}
+          </h2>
+
+          <p className="text-2xl text-gray-400 text-center mt-4">
+            {songs[currentSong].artist}
+          </p>
+
+          <Player
+            songs={songs}
+            currentSong={currentSong}
+            setCurrentSong={setCurrentSong}
+          />
+
+        </div>
 
       </div>
 
