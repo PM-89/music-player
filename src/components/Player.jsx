@@ -73,7 +73,7 @@ function Player({ songs, currentSong, setCurrentSong }) {
   };
 
   return (
-    <div className="mt-8">
+    <div className="mt-6 flex-1 flex flex-col justify-end">
 
       <audio
         ref={audioRef}

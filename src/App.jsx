@@ -6,29 +6,25 @@ function App() {
   const [currentSong, setCurrentSong] = useState(0);
 
   return (
-    <div className="min-h-screen bg-black text-white flex justify-center items-center">
+    <div className="h-screen bg-black flex justify-center items-center overflow-hidden">
 
-      <div className="bg-gray-900 p-10 rounded-3xl w-[400px] shadow-lg">
+      <div className="bg-[#111827] w-[380px] h-[700px] rounded-3xl shadow-2xl p-8 flex flex-col">
 
-        <h1 className="text-3xl font-bold text-center">
+        <h1 className="text-5xl font-bold text-white text-center">
           🎵 Music Player
         </h1>
 
-        <div className="mt-8 flex justify-center">
+        <img
+          src="https://picsum.photos/260"
+          alt="cover"
+          className="w-64 h-64 mx-auto mt-8 rounded-2xl object-cover"
+        />
 
-          <img
-            src="https://picsum.photos/250"
-            alt="cover"
-            className="rounded-xl"
-          />
-
-        </div>
-
-        <h2 className="text-3xl text-center mt-8 font-bold">
+        <h2 className="text-4xl font-bold text-white text-center mt-8">
           {songs[currentSong].title}
         </h2>
 
-        <p className="text-center text-gray-400 mt-2">
+        <p className="text-gray-400 text-center text-xl mt-2">
           {songs[currentSong].artist}
         </p>
 
