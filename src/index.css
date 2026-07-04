@@ -21,22 +21,30 @@ body {
   overflow: hidden;
 }
 
-input[type="range"] {
-  width: 100%;
-  cursor: pointer;
-  accent-color: #2563eb;
+/* Album Cover */
+img {
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
+/* Buttons */
 button {
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 button:hover {
   transform: scale(1.08);
 }
 
-img {
-  user-select: none;
-  -webkit-user-drag: none;
+/* Sliders */
+input[type="range"] {
+  width: 100%;
+  cursor: pointer;
+  accent-color: #3b82f6;
+}
+
+/* Scrollbar (hidden) */
+::-webkit-scrollbar {
+  display: none;
 }

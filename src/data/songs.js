@@ -8,7 +8,7 @@ const songs = [
   {
     id: 2,
     title: "Waka Waka",
-    artist: "Unknown Artist",
+    artist: "Shakira",
     src: "/music/song2.mp3",
   },
   {
@@ -26,7 +26,7 @@ const songs = [
   {
     id: 5,
     title: "Lovely",
-    artist: "Billie Eilish",
+    artist: "Billie Eilish & Khalid",
     src: "/music/song5.mp3",
   },
 ];
