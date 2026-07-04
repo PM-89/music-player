@@ -6,46 +6,42 @@ function App() {
   const [currentSong, setCurrentSong] = useState(0);
 
   return (
-    <div className="w-screen h-screen bg-black flex items-center justify-center p-6">
+    <div className="h-screen bg-black flex justify-center items-center overflow-hidden p-4">
+      <div className="bg-[#111827] w-[380px] h-[700px] rounded-3xl shadow-2xl p-6 flex flex-col">
 
-      <div className="w-full max-w-6xl h-[90vh] bg-[#111827] rounded-3xl shadow-2xl flex items-center justify-between px-16">
+        {/* Header */}
+        <h1 className="text-white text-4xl font-bold text-center mb-4">
+          🎵 Music Player
+        </h1>
 
-        {/* Left */}
-        <div className="w-[40%] flex flex-col items-center">
+        {/* Album Cover */}
+        <img
+          src={`https://picsum.photos/400?random=${currentSong}`}
+          alt="cover"
+          className="w-56 h-56 rounded-2xl object-cover mx-auto"
+        />
 
-          <h1 className="text-5xl font-bold text-white mb-10">
-            🎵 Music Player
-          </h1>
-
-          <img
-            src={`https://picsum.photos/400?random=${currentSong}`}
-            alt="cover"
-            className="w-80 h-80 rounded-3xl object-cover shadow-xl"
-          />
-
-        </div>
-
-        {/* Right */}
-        <div className="w-[50%]">
-
-          <h2 className="text-5xl font-bold text-white text-center">
+        {/* Song Details */}
+        <div className="text-center mt-5">
+          <h2 className="text-3xl font-bold text-white">
             {songs[currentSong].title}
           </h2>
 
-          <p className="text-2xl text-gray-400 text-center mt-3 mb-8">
+          <p className="text-gray-400 text-lg mt-2">
             {songs[currentSong].artist}
           </p>
+        </div>
 
+        {/* Player */}
+        <div className="mt-6 flex-1">
           <Player
             songs={songs}
             currentSong={currentSong}
             setCurrentSong={setCurrentSong}
           />
-
         </div>
 
       </div>
-
     </div>
   );
 }

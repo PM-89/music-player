@@ -33,6 +33,8 @@ function Player({ songs, currentSong, setCurrentSong }) {
   }, [currentSong]);
 
   const playPause = () => {
+    if (!audioRef.current) return;
+
     if (isPlaying) {
       audioRef.current.pause();
     } else {
@@ -66,7 +68,7 @@ function Player({ songs, currentSong, setCurrentSong }) {
   };
 
   return (
-    <div className="flex flex-col gap-8 w-full">
+    <div className="flex flex-col justify-between h-full">
 
       <audio
         ref={audioRef}
@@ -89,7 +91,7 @@ function Player({ songs, currentSong, setCurrentSong }) {
           className="w-full accent-blue-600 cursor-pointer"
         />
 
-        <div className="flex justify-between text-gray-400 mt-2">
+        <div className="flex justify-between text-gray-400 text-sm mt-2">
           <span>{formatTime(currentTime)}</span>
           <span>{formatTime(duration)}</span>
         </div>
@@ -98,25 +100,25 @@ function Player({ songs, currentSong, setCurrentSong }) {
 
       {/* Controls */}
 
-      <div className="flex justify-center items-center gap-12">
+      <div className="flex justify-center items-center gap-8 my-5">
 
         <button
           onClick={prevSong}
-          className="text-white text-5xl hover:text-blue-500 transition"
+          className="text-white text-3xl hover:text-blue-500 transition"
         >
           <FaStepBackward />
         </button>
 
         <button
           onClick={playPause}
-          className="w-24 h-24 bg-blue-600 hover:bg-blue-700 rounded-full flex justify-center items-center text-4xl text-white shadow-xl transition"
+          className="w-20 h-20 rounded-full bg-blue-600 hover:bg-blue-700 flex justify-center items-center text-white text-3xl shadow-xl transition"
         >
           {isPlaying ? <FaPause /> : <FaPlay />}
         </button>
 
         <button
           onClick={nextSong}
-          className="text-white text-5xl hover:text-blue-500 transition"
+          className="text-white text-3xl hover:text-blue-500 transition"
         >
           <FaStepForward />
         </button>
@@ -125,9 +127,9 @@ function Player({ songs, currentSong, setCurrentSong }) {
 
       {/* Volume */}
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
 
-        <FaVolumeUp className="text-white text-2xl" />
+        <FaVolumeUp className="text-white text-xl" />
 
         <input
           type="range"
@@ -143,14 +145,14 @@ function Player({ songs, currentSong, setCurrentSong }) {
 
       {/* Download */}
 
-      <div className="flex justify-center">
+      <div className="flex justify-center mt-5">
 
         <a
           href={songs[currentSong].src}
           download
-          className="bg-green-600 hover:bg-green-700 w-16 h-16 rounded-full flex items-center justify-center transition"
+          className="w-12 h-12 rounded-full bg-green-600 hover:bg-green-700 flex justify-center items-center transition"
         >
-          <FaDownload className="text-white text-2xl" />
+          <FaDownload className="text-white text-xl" />
         </a>
 
       </div>
