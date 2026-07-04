@@ -1,20 +1,20 @@
 const songs = [
   {
     id: 1,
-    title: "Dai Dai",
+    title: "Dai Dai (Sped Up)",
     artist: "Unknown Artist",
     src: "/music/song1.mp3",
   },
   {
     id: 2,
     title: "Waka Waka",
-    artist: "Shakira",
+    artist: "Unknown Artist",
     src: "/music/song2.mp3",
   },
   {
     id: 3,
     title: "Rock That Body",
-    artist: "Black Eyed Peas",
+    artist: "Unknown Artist",
     src: "/music/song3.mp3",
   },
   {
