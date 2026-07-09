@@ -1,3 +1,4 @@
+
 import { useRef, useState, useEffect } from "react";
 import {
   FaPlay,
@@ -13,7 +14,6 @@ function Player({ songs, currentSong, setCurrentSong }) {
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
-
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
@@ -24,19 +24,22 @@ function Player({ songs, currentSong, setCurrentSong }) {
     }
   }, [volume]);
 
-  // Play selected song automatically
+  // Load new song
   useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.load();
+    if (songs.length === 0 || !audioRef.current) return;
 
-      if (isPlaying) {
-        audioRef.current.play();
-      }
+    audioRef.current.load();
+    setCurrentTime(0);
+
+    if (isPlaying) {
+      audioRef.current.play().catch(() => {});
     }
-  }, [currentSong]);
+  }, [currentSong, songs]);
 
   // Play / Pause
   const playPause = () => {
+    if (songs.length === 0) return;
+
     if (isPlaying) {
       audioRef.current.pause();
     } else {
@@ -48,29 +51,45 @@ function Player({ songs, currentSong, setCurrentSong }) {
 
   // Next Song
   const nextSong = () => {
-    setCurrentSong((currentSong + 1) % songs.length);
+    if (songs.length === 0) return;
+
+    setCurrentSong((prev) => (prev + 1) % songs.length);
   };
 
   // Previous Song
   const prevSong = () => {
-    setCurrentSong((currentSong - 1 + songs.length) % songs.length);
+    if (songs.length === 0) return;
+
+    setCurrentSong((prev) =>
+      prev === 0 ? songs.length - 1 : prev - 1
+    );
   };
 
-  // Seek Bar
+  // Seek
   const handleSeek = (e) => {
-    audioRef.current.currentTime = Number(e.target.value);
-    setCurrentTime(Number(e.target.value));
+    const value = Number(e.target.value);
+
+    audioRef.current.currentTime = value;
+    setCurrentTime(value);
   };
 
-  // Time Format
+  // Format Time
   const formatTime = (time) => {
     if (isNaN(time)) return "0:00";
 
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
+    const min = Math.floor(time / 60);
+    const sec = Math.floor(time % 60);
 
-    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+    return `${min}:${sec < 10 ? "0" : ""}${sec}`;
   };
+
+  if (songs.length === 0) {
+    return (
+      <div className="text-center mt-10 text-gray-400">
+        Add songs to the playlist.
+      </div>
+    );
+  }
 
   return (
     <div className="mt-8">
@@ -89,22 +108,18 @@ function Player({ songs, currentSong, setCurrentSong }) {
 
       {/* Progress Bar */}
 
-      <div className="mt-6">
+      <input
+        type="range"
+        min="0"
+        max={duration || 0}
+        value={currentTime}
+        onChange={handleSeek}
+        className="w-full cursor-pointer"
+      />
 
-        <input
-          type="range"
-          min="0"
-          max={duration || 0}
-          value={currentTime}
-          onChange={handleSeek}
-          className="w-full cursor-pointer"
-        />
-
-        <div className="flex justify-between text-sm mt-2 text-gray-400">
-          <span>{formatTime(currentTime)}</span>
-          <span>{formatTime(duration)}</span>
-        </div>
-
+      <div className="flex justify-between text-sm text-gray-400 mt-2">
+        <span>{formatTime(currentTime)}</span>
+        <span>{formatTime(duration)}</span>
       </div>
 
       {/* Controls */}
@@ -113,21 +128,21 @@ function Player({ songs, currentSong, setCurrentSong }) {
 
         <button
           onClick={prevSong}
-          className="text-3xl hover:text-blue-500 transition"
+          className="text-3xl hover:text-blue-500"
         >
           <FaStepBackward />
         </button>
 
         <button
           onClick={playPause}
-          className="bg-blue-600 hover:bg-blue-700 p-5 rounded-full text-3xl transition"
+          className="bg-blue-600 hover:bg-blue-700 p-5 rounded-full text-3xl"
         >
           {isPlaying ? <FaPause /> : <FaPlay />}
         </button>
 
         <button
           onClick={nextSong}
-          className="text-3xl hover:text-blue-500 transition"
+          className="text-3xl hover:text-blue-500"
         >
           <FaStepForward />
         </button>
@@ -159,7 +174,7 @@ function Player({ songs, currentSong, setCurrentSong }) {
         <a
           href={songs[currentSong].src}
           download
-          className="bg-green-600 hover:bg-green-700 p-4 rounded-full transition"
+          className="bg-green-600 hover:bg-green-700 p-4 rounded-full"
         >
           <FaDownload size={22} />
         </a>
